@@ -6,7 +6,6 @@
      withdraw money. """
 # TODO: add documnetation to the methods
 
-
 # This BankApi class is a dummy class that simulates a bank API that allows a simple atm to be tested
 class BankAPI:
     """ This class is a mockup of a bank API that allows a simple atm to be tested"""
@@ -31,8 +30,10 @@ class BankAPI:
         
     def update_user_balance(self, user_data, account_id, amount):
         """ This method updates the user data"""
-        user_data.accounts[account_id].account_balance += amount
-        pass
+        if user_data.user_name != self.user_data_1.user_name:
+            return False
+        self.user_data_1.accounts[account_id].account_balance += amount
+        return True
 
 # Following code is a simple ATM class that allows a user to:
 class BankAccount:
@@ -49,12 +50,25 @@ class CurrentUserData:
     def __init__(self):
         self.user_name = None
         self.accounts = [BankAccount()]
+    def deepcopy(self):
+        # deep copy the user data without the library
+        user_data = CurrentUserData()
+        user_data.user_name = self.user_name
+        user_data.accounts = [BankAccount()]
+        # iterate over the all the accounts and copy them
+        for i in range(len(self.accounts)):
+            user_data.accounts[i].account_id = self.accounts[i].account_id
+            user_data.accounts[i].account_currency = self.accounts[i].account_currency
+            user_data.accounts[i].account_balance = self.accounts[i].account_balance
+        return user_data
+    
+
 
 class SimpleATM:
     """ This class represents a simple ATM"""
     def __init__(self):
         self.bank_api = BankAPI()
-        self.cash_bin = 999
+        self.cash_bin = 99999
         self.current_card_id = None
         self.current_pin = None
 
@@ -69,7 +83,8 @@ class SimpleATM:
         check_pin_status = self.bank_api.check_pin(self.current_card_id, self.current_pin)
 
         if check_pin_status:
-            self.user_data = self.bank_api.get_user_data(self.current_card_id, self.current_pin)
+            from_api = (self.bank_api.get_user_data(self.current_card_id, self.current_pin))
+            self.user_data = from_api.deepcopy()
             print("Pin Correct and User Data Retrieved for: ", self.user_data.user_name)
 
         return check_pin_status
@@ -104,13 +119,12 @@ class SimpleATM:
     
     def deposit(self, account_number : int, amount : int):
         """ This method for depositing the money"""
-        
         deposit_status = self.bank_api.update_user_balance(self.user_data, account_number, amount)
         
         if deposit_status:
             self.cash_bin += amount
             self.user_data.accounts[account_number].account_balance += amount
-
+            
         return deposit_status
 
     def withdraw(self, account_number : int, amount : int):
@@ -125,6 +139,8 @@ class SimpleATM:
                     self.cash_bin -= amount
                     self.user_data.accounts[account_number].account_balance -= amount
                     withdraw_status = "Money withdrawn"
+                else: 
+                    withdraw_status = "API error"
             else: 
                 withdraw_status = "Not enough money in the account"
         else:
@@ -196,11 +212,42 @@ if __name__ == '__main__':
     see_balance = atm.see_balance(0)
     print("See balance: ", see_balance)
 
-    atm.withdraw(0, 200)
-    print("Withdraw 200")
+    withdraw_status = atm.withdraw(0, 200)
+    print("Withdraw 200", withdraw_status)
 
     see_balance = atm.see_balance(0)
     print("See balance: ", see_balance)
 
 
+
+    # Test case 4: select account, see balance, withdraw too much, deposit enough, withdraw enough
+    print("*****************************")
+    print("Test case 4: select account, see balance, withdraw too much, deposit enough, withdraw enough")
+    del atm
+    atm = SimpleATM()
+    atm.insert_card(1234)
+    atm.insert_pin(1234)
+    check_pin_status = atm.check_pin()
+    print("Check pin status wrong card id: ", check_pin_status)
+    
+    see_balance = atm.see_balance(0)
+    print("See balance: ", see_balance)
+
+    select_account = atm.select_account(0)
+    print("Select account: ", select_account)
+
+    withdraw_status = atm.withdraw(0, 2000)
+    print("Withdraw 2000: ", withdraw_status)
+
+    see_balance = atm.see_balance(0)
+    print("See balance: ", see_balance)
+
+    atm.deposit(0, 5000)
+    print("Deposit 5000")
+
+    see_balance = atm.see_balance(0)
+    print("See balance: ", see_balance)
+    
+    withdraw_status = atm.withdraw(0, 2000)
+    print("Withdraw 2000 ", withdraw_status)
 
