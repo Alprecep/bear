@@ -113,6 +113,23 @@ class SimpleATM:
         else:
             print("Money not deposited ", deposit_status)
 
+    def withdraw(self, account_number : int, amount : int):
+        """ This method for withdrawing the money"""
+        print("Withdrawing money...")
+                
+        if self.cash_bin > amount: # Check if there is enough money in the ATM
+            if self.user_data.accounts[account_number].account_balance > amount: # Check if there is enough money in the account
+        
+                withdraw_status = self.bank_api.update_user_balance(self.user_data, account_number, -amount)
+                if withdraw_status:
+                    self.cash_bin -= amount
+                    self.user_data.accounts[account_number].account_balance -= amount
+                    print("Money withdrawn")
+            else: 
+                print("Not enough money in the account")
+        else:
+            print("Not enough money in the ATM")
+
 if __name__ == '__main__':
     """ This is the main function that tests the SimpleATM class"""
     atm = SimpleATM()
@@ -124,6 +141,10 @@ if __name__ == '__main__':
     see_balance = atm.see_balance(0)
     atm.deposit(0, 100)
     see_balance = atm.see_balance(0)
+
+    atm.withdraw(0, 200)
+    see_balance = atm.see_balance(0)
+
 
 
 
