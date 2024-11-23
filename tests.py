@@ -7,6 +7,7 @@ from SimpleATM import SimpleATM
 print("*****************************")
 print("Test case 1: initialize the ATM")
 atm = SimpleATM()
+print("ATM initialized")
 del atm
 
 # Test case 2: insert card, insert pin, check pin
@@ -15,26 +16,26 @@ print("Test case 2: insert card, insert pin, check pin")
 atm = SimpleATM()
 
 # test 2.0: no input
-print("Test 2.0: no input inserted")
+print("Test 2.0: no input inserted but check pin is called") 
 check_pin_status = atm.check_pin()
 print("Check pin for no input inserted: ", check_pin_status)
 
 # test 2.1: wrong pin
-print("Test 2.1: wrong pin inserted")
+print("Test 2.1: wrong pin inserted check pin is called")
 atm.insert_card(1234)
 atm.insert_pin(0000)
 check_pin_status = atm.check_pin()
 print("Check pin status wrong pin: ", check_pin_status)
 
 # test 2.2: wrong id
-print("Test 2.2: wrong id inserted")
+print("Test 2.2: wrong id inserted and check pin is called")
 atm.insert_card(0000)
 atm.insert_pin(1234)
 check_pin_status = atm.check_pin()
 print("Check pin status wrong card id: ", check_pin_status)
 
 # test 2.3: correct configuration
-print("Test 2.3: correct configuration inserted")
+print("Test 2.3: correct configuration inserted and check pin is called")
 atm.insert_card(1234)
 atm.insert_pin(1234)
 check_pin_status = atm.check_pin()
@@ -49,7 +50,7 @@ atm = SimpleATM()
 atm.insert_card(1234)
 atm.insert_pin(1234)
 check_pin_status = atm.check_pin()
-print("Check pin status wrong card id: ", check_pin_status)
+print("Check pin status: ", check_pin_status)
 
 select_account = atm.select_account(0)
 print("Select account: ", select_account)
@@ -77,7 +78,7 @@ atm = SimpleATM()
 atm.insert_card(1234)
 atm.insert_pin(1234)
 check_pin_status = atm.check_pin()
-print("Check pin status wrong card id: ", check_pin_status)
+print("Check pin status: ", check_pin_status)
 
 see_balance = atm.see_balance(0)
 print("See balance: ", see_balance)
