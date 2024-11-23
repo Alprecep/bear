@@ -60,62 +60,51 @@ class SimpleATM:
 
     def check_pin(self):
         """ This method checks the pin"""
-
-        print("Checking pin...")
         result = self.bank_api.check_pin(self.current_card_id, self.current_pin)
-        print("Checking pin Result: ", result)
 
         if result:
             self.user_data = self.bank_api.get_user_data(self.current_card_id, self.current_pin)
-            print("User Data: ", self.user_data.user_name)
+            print("Pin Correct User Data Retrieved for: ", self.user_data.user_name)
 
         return result
     
     def insert_card(self, card_id : int):
         """ This method for inserting the card id"""
-        print("Inserting card...")
         self.current_card_id = card_id
-        print("Card inserted")
         
     def insert_pin(self, pin : int):
         """ This method for inserting the pin"""
-        print("Inserting pin...")
         self.current_pin = pin
-        print("Pin inserted")
 
     def select_account(self, account_number : int):
         """ This method for selecting the account"""
-        print("Selecting account...")
         account = self.user_data.accounts[account_number]
 
         print("Account ID: ", account.account_id)
         print("Balance: ", account.account_balance)
         print("Currency: ", account.account_currency)
-        print("Account selected")
 
     def see_balance(self, account_number : int):
         """ This method for checking the balance"""
-        print("Checking balance...")
         account = self.user_data.accounts[account_number]
         print("Balance: ", account.account_balance)
-
+        return account.account_balance
+    
     def deposit(self, account_number : int, amount : int):
         """ This method for depositing the money"""
-        print("Depositing money...")
         
         deposit_status = self.bank_api.update_user_balance(self.user_data, account_number, amount)
         
         if deposit_status:
             self.cash_bin += amount
             self.user_data.accounts[account_number].account_balance += amount
-            print("Money deposited")
-        else:
-            print("Money not deposited ", deposit_status)
+
+        return deposit_status
 
     def withdraw(self, account_number : int, amount : int):
         """ This method for withdrawing the money"""
-        print("Withdrawing money...")
-                
+
+        withdraw_status = ""  
         if self.cash_bin >= amount: # Check if there is enough money in the ATM
             if self.user_data.accounts[account_number].account_balance >= amount: # Check if there is enough money in the account
         
@@ -123,12 +112,13 @@ class SimpleATM:
                 if withdraw_status:
                     self.cash_bin -= amount
                     self.user_data.accounts[account_number].account_balance -= amount
-                    print("Money withdrawn")
+                    withdraw_status = "Money withdrawn"
             else: 
-                print("Not enough money in the account")
+                withdraw_status = "Not enough money in the account"
         else:
-            print("Not enough money in the ATM")
+            withdraw_status  = "Not enough money in the ATM"
 
+        return withdraw_status
 if __name__ == '__main__':
     """ This is the main function that tests the SimpleATM class"""
     # Test the SimpleATM class
