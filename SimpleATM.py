@@ -64,18 +64,27 @@ class SimpleATM:
 
         if result:
             self.user_data = self.bank_api.get_user_data(self.current_card_id, self.current_pin)
-            print("Pin Correct User Data Retrieved for: ", self.user_data.user_name)
+            print("Pin Correct and User Data Retrieved for: ", self.user_data.user_name)
 
         return result
     
     def insert_card(self, card_id : int):
-        """ This method for inserting the card id"""
+        """ This method for inserting the card id, the id is read by the card reader and passed to the atm"""
+        insert_card_status = ""
+        if card_id < 1000 or card_id > 9999:
+            insert_card_status = "Invalid card id, expected 4 digit card id"
         self.current_card_id = card_id
         
     def insert_pin(self, pin : int):
-        """ This method for inserting the pin"""
-        self.current_pin = pin
+        """ This method for inserting the pin received from the user"""
+        pin_status = ""
+        if pin < 1000 or pin > 9999:
+            pin_status = "Invalid pin, input should be 4 digit pin" 
+        else: 
+            self.current_pin = pin
+            pin_status = "Pin inserted"
 
+        return pin_status
     def select_account(self, account_number : int):
         """ This method for selecting the account"""
         account = self.user_data.accounts[account_number]
@@ -119,6 +128,7 @@ class SimpleATM:
             withdraw_status  = "Not enough money in the ATM"
 
         return withdraw_status
+
 if __name__ == '__main__':
     """ This is the main function that tests the SimpleATM class"""
     # Test the SimpleATM class
@@ -135,22 +145,22 @@ if __name__ == '__main__':
     atm = SimpleATM()
 
     # test 2.1: wrong pin
-    print("Test 2.1: wrong pin")
+    print("Test 2.1: wrong pin inserted")
     atm.insert_card(1234)
     atm.insert_pin(0000)
     check_pin_status = atm.check_pin()
     print("Check pin status wrong pin: ", check_pin_status)
     
     # test 2.2: wrong id
-    print("Test 2.2: wrong id")
+    print("Test 2.2: wrong id inserted")
     atm.insert_card(0000)
     atm.insert_pin(1234)
     check_pin_status = atm.check_pin()
     print("Check pin status wrong card id: ", check_pin_status)
     
     # test 2.3: correct configuration
-    print("Test 2.3: correct configuration")
-    atm.insert_card(0000)
+    print("Test 2.3: correct configuration inserted")
+    atm.insert_card(1234)
     atm.insert_pin(1234)
     check_pin_status = atm.check_pin()
     print("Check pin status correct configuration: ", check_pin_status)
