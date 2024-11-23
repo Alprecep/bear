@@ -5,10 +5,6 @@ This module contains a simple ATM class that allows a user to:
     check their balance, 
     deposit money, 
     withdraw money. 
-
-Typing: https://docs.python.org/3/library/typing.html
-Documentation: https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html
-
 """
 from BankAPI import BankAPI
 from UserData import UserData, BankAccount
