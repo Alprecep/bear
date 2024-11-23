@@ -55,7 +55,6 @@ class SimpleATM:
         self.cash_bin = 999
         self.current_card_id = None
         self.current_pin = None
-        self.current_account_id = None
 
         self.user_data = CurrentUserData()
 
