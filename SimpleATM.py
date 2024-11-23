@@ -92,10 +92,7 @@ class SimpleATM:
     def select_account(self, account_number : int):
         """ This method for selecting the account"""
         account = self.user_data.accounts[account_number]
-
-        print("Account ID: ", account.account_id)
-        print("Balance: ", account.account_balance)
-        print("Currency: ", account.account_currency)
+        return account
 
     def see_balance(self, account_number : int):
         """ This method for checking the balance"""
@@ -186,13 +183,22 @@ if __name__ == '__main__':
     print("Check pin status wrong card id: ", check_pin_status)
     
     select_account = atm.select_account(0)
+    print("Select account: ", select_account)
+
     see_balance = atm.see_balance(0)
+    print("See balance: ", see_balance)
+    
     atm.deposit(0, 100)
+    print("Deposit 100")
+
     see_balance = atm.see_balance(0)
+    print("See balance: ", see_balance)
 
     atm.withdraw(0, 200)
-    see_balance = atm.see_balance(0)
+    print("Withdraw 200")
 
+    see_balance = atm.see_balance(0)
+    print("See balance: ", see_balance)
 
 
 
