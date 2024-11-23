@@ -41,6 +41,8 @@ class BankAccount:
         self.account_id = None
         self.account_currency = None
         self.account_balance = None
+    def __str__(self):
+        return f"Account ID: {self.account_id}, Account Currency: {self.account_currency}, Account Balance: {self.account_balance}"
 
 class CurrentUserData:
     """ This class represents the current user data"""
