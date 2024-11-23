@@ -90,7 +90,7 @@ class SimpleATM:
         print("Currency: ", account.account_currency)
         print("Account selected")
 
-    def check_balance(self, account_number : int):
+    def see_balance(self, account_number : int):
         """ This method for checking the balance"""
         print("Checking balance...")
         account = self.user_data.accounts[account_number]
@@ -104,4 +104,6 @@ if __name__ == '__main__':
     atm.insert_pin(1234)
     check_pin_status = atm.check_pin()
     select_account = atm.select_account(0)
-    check_balance = atm.check_balance(0)
+    see_balance = atm.see_balance(0)
+
+
