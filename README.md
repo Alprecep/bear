@@ -3,13 +3,15 @@ Implemented based on Implementation_Instructions.md file give by Bear.
 Typing: https://docs.python.org/3/library/typing.html
 Documentation: https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html
 
+# Installation
+```bash
 # Clone the repository
-
 git clone https://github.com/Alprecep/bear.git
 cd bear
 
 # Run tests
 python3 tests.py
+```
 
 ## Cases are tested in the following order:
 
@@ -38,7 +40,7 @@ See balance:  1100
 Withdraw 200 Money withdrawn
 See balance:  900
 ```
-## Test case 4: 
+## Test case 4: Update the balance and withdraw again
 ```
 Test case 4: select account, see balance, withdraw too much, deposit enough, withdraw enough
 Check pin status wrong card id:  Pin Correct and User Data Retrieved for Alp
