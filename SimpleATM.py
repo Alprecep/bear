@@ -60,13 +60,17 @@ class SimpleATM:
 
     def check_pin(self):
         """ This method checks the pin"""
-        result = self.bank_api.check_pin(self.current_card_id, self.current_pin)
+        check_pin_status = ""
+        if self.current_card_id == None or self.current_pin == None:
+            check_pin_status = "Card id and pin should be inserted first"
+            return check_pin_status
+        check_pin_status = self.bank_api.check_pin(self.current_card_id, self.current_pin)
 
-        if result:
+        if check_pin_status:
             self.user_data = self.bank_api.get_user_data(self.current_card_id, self.current_pin)
             print("Pin Correct and User Data Retrieved for: ", self.user_data.user_name)
 
-        return result
+        return check_pin_status
     
     def insert_card(self, card_id : int):
         """ This method for inserting the card id, the id is read by the card reader and passed to the atm"""
@@ -144,6 +148,11 @@ if __name__ == '__main__':
     print("Test case 2: insert card, insert pin, check pin")
     atm = SimpleATM()
 
+    # test 2.0: no input
+    print("Test 2.0: no input inserted")
+    check_pin_status = atm.check_pin()
+    print("Check pin for no input inserted: ", check_pin_status)
+    
     # test 2.1: wrong pin
     print("Test 2.1: wrong pin inserted")
     atm.insert_card(1234)
