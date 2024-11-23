@@ -20,6 +20,10 @@ class BankAPI:
         if card_id == self.user_data_1.accounts[0].account_id and pin == 1234:
             return True
         return False
+    
+    def get_user_data(self, card_id, pin):
+        if self.check_pin(card_id, pin):
+            return self.user_data_1
 
 
 # Following code is a simple ATM class that allows a user to:
@@ -41,15 +45,31 @@ class SimpleATM:
         self.current_card_id = None
         self.current_pin = None
 
-    def check_pin(self, card_id : int  , pin : int):
+    def check_pin(self):
         print("Checking pin...")
-        result = self.bank_api.check_pin(card_id, pin)
+        result = self.bank_api.check_pin(self.current_card_id, self.current_pin)
         print("Checking pin Result: ", result)
-        return result
 
+        if result:
+            user_data = self.bank_api.get_user_data(self.current_card_id, self.current_pin)
+            print("User Data: ", user_data.user_name)
+
+        return result
+    
+    def insert_card(self, card_id : int):
+        print("Inserting card...")
+        self.current_card_id = card_id
+        print("Card inserted")
+        
+    def insert_pin(self, pin : int):
+        print("Inserting pin...")
+        self.current_pin = pin
+        print("Pin inserted")
 
 
 if __name__ == '__main__':
     atm = SimpleATM()
     
-    check_pin_status = atm.check_pin(1234, 1234)
+    atm.insert_card(1234)
+    atm.insert_pin(1234)
+    check_pin_status = atm.check_pin()
