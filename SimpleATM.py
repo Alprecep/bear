@@ -117,8 +117,8 @@ class SimpleATM:
         """ This method for withdrawing the money"""
         print("Withdrawing money...")
                 
-        if self.cash_bin > amount: # Check if there is enough money in the ATM
-            if self.user_data.accounts[account_number].account_balance > amount: # Check if there is enough money in the account
+        if self.cash_bin >= amount: # Check if there is enough money in the ATM
+            if self.user_data.accounts[account_number].account_balance >= amount: # Check if there is enough money in the account
         
                 withdraw_status = self.bank_api.update_user_balance(self.user_data, account_number, -amount)
                 if withdraw_status:
