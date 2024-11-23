@@ -28,7 +28,11 @@ class BankAPI:
         """ This method returns the user data for the given card_id and pin"""
         if self.check_pin(card_id, pin):
             return self.user_data_1
-
+        
+    def update_user_balance(self, user_data, account_id, amount):
+        """ This method updates the user data"""
+        user_data.accounts[account_id].account_balance += amount
+        pass
 
 # Following code is a simple ATM class that allows a user to:
 class BankAccount:
@@ -96,6 +100,19 @@ class SimpleATM:
         account = self.user_data.accounts[account_number]
         print("Balance: ", account.account_balance)
 
+    def deposit(self, account_number : int, amount : int):
+        """ This method for depositing the money"""
+        print("Depositing money...")
+        
+        deposit_status = self.bank_api.update_user_balance(self.user_data, account_number, amount)
+        
+        if deposit_status:
+            self.cash_bin += amount
+            self.user_data.accounts[account_number].account_balance += amount
+            print("Money deposited")
+        else:
+            print("Money not deposited ", deposit_status)
+
 if __name__ == '__main__':
     """ This is the main function that tests the SimpleATM class"""
     atm = SimpleATM()
@@ -105,5 +122,8 @@ if __name__ == '__main__':
     check_pin_status = atm.check_pin()
     select_account = atm.select_account(0)
     see_balance = atm.see_balance(0)
+    atm.deposit(0, 100)
+    see_balance = atm.see_balance(0)
+
 
 
