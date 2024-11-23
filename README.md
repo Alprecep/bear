@@ -2,6 +2,7 @@
 - Implemented based on Implementation_Instructions.md file give by Bear.
 - Typing: https://docs.python.org/3/library/typing.html
 - Documentation: https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html
+- only python used, no additianal library is needed
 
 ## Assumptions
 - The user can have multiple accounts
