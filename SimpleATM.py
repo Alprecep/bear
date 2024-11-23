@@ -44,6 +44,9 @@ class SimpleATM:
         self.cash_bin = 999
         self.current_card_id = None
         self.current_pin = None
+        self.current_account_id = None
+
+        self.user_data = CurrentUserData()
 
     def check_pin(self):
         print("Checking pin...")
@@ -51,8 +54,8 @@ class SimpleATM:
         print("Checking pin Result: ", result)
 
         if result:
-            user_data = self.bank_api.get_user_data(self.current_card_id, self.current_pin)
-            print("User Data: ", user_data.user_name)
+            self.user_data = self.bank_api.get_user_data(self.current_card_id, self.current_pin)
+            print("User Data: ", self.user_data.user_name)
 
         return result
     
@@ -66,6 +69,14 @@ class SimpleATM:
         self.current_pin = pin
         print("Pin inserted")
 
+    def select_account(self, account_number : int):
+        print("Selecting account...")
+        account = self.user_data.accounts[account_number]
+
+        print("Account ID: ", account.account_id)
+        print("Balance: ", account.account_balance)
+        print("Currency: ", account.account_currency)
+        print("Account selected")
 
 if __name__ == '__main__':
     atm = SimpleATM()
@@ -73,3 +84,4 @@ if __name__ == '__main__':
     atm.insert_card(1234)
     atm.insert_pin(1234)
     check_pin_status = atm.check_pin()
+    select_account = atm.select_account(0)
