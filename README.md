@@ -3,6 +3,20 @@ Implemented based on Implementation_Instructions.md file give by Bear.
 Typing: https://docs.python.org/3/library/typing.html
 Documentation: https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html
 
+## Assumptions
+- The user can have multiple accounts
+- The user can withdraw and deposit money from the account
+- The user can see the balance of the account
+- The user can select the account
+- The user can insert the card and pin
+- The user can check the pin
+- The user can see the account details
+- The BankAPI is a mock API that is used to get the user data and update the user data
+- For simplicity, the currency is in USD and currency check is not implemented
+- For simplicity, the test cases doesnt include more user data and account data but can be added
+- The user can withdraw money from the account if the balance is enough and atm has enough money
+- The test cases are written in the tests.py file. This file can be run and the test cases can be seen in the terminal output.
+
 # Installation
 ```bash
 # Clone the repository
