@@ -10,82 +10,9 @@ Typing: https://docs.python.org/3/library/typing.html
 Documentation: https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html
 
 """
+from BankAPI import BankAPI
+from UserData import UserData, BankAccount
 
-# This BankApi class is a dummy class that simulates a bank API that allows a simple atm to be tested
-class BankAPI:
-    """ This class is a mockup of a bank API that allows a simple atm to be tested"""
-    def __init__(self):
-        self.user_data_1 = CurrentUserData()
-        self.user_data_1.user_name = 'Alp'
-        self.user_data_1.accounts[0].account_id = 1234
-        self.user_data_1.accounts[0].account_currency = 'USD'
-        self.user_data_1.accounts[0].account_balance = 1000
-
-    
-    def check_pin(self, card_id : int, pin : int) -> bool:
-        """ This method checks if the pin is correct for the given card_id
-            Args:
-                card_id: The card id
-                pin: The pin
-            Returns: 
-                bool true if the pin is correct
-        """
-        if card_id == self.user_data_1.accounts[0].account_id and pin == 1234:
-            return True
-        return False
-    
-    def get_user_data(self, card_id, pin):
-        """ This method returns the user data for the given card_id and pin
-            Args:
-                card_id: The card id
-                pin: The pin
-            Returns:
-                CurrentUserData: The user data
-        """
-        if self.check_pin(card_id, pin):
-            return self.user_data_1
-        
-    def update_user_balance(self, user_data, account_id, amount):
-        """ This method updates the user data
-            Args:
-                user_data: The user data
-                account_id: The account id
-                amount: The amount to be updated
-            Returns:
-                bool: True if the update is successful
-        """
-        if user_data.user_name != self.user_data_1.user_name:
-            return False
-        self.user_data_1.accounts[account_id].account_balance += amount
-        return True
-
-# Following code is a simple ATM class that allows a user to:
-class BankAccount:
-    """ This class represents a bank account"""
-    def __init__(self):
-        self.account_id = None
-        self.account_currency = None
-        self.account_balance = None
-    def __str__(self):
-        return f"Account ID: {self.account_id}, Account Currency: {self.account_currency}, Account Balance: {self.account_balance}"
-
-class CurrentUserData:
-    """ This class represents the current user data"""
-    def __init__(self):
-        self.user_name = None
-        self.accounts = [BankAccount()]
-    def custom_deepcopy(self):
-        """ This method deep copies the user data without the library"""
-        user_data = CurrentUserData()
-        user_data.user_name = self.user_name
-        user_data.accounts = [BankAccount()]
-        # iterate over the all the accounts and copy them
-        for i in range(len(self.accounts)):
-            user_data.accounts[i].account_id = self.accounts[i].account_id
-            user_data.accounts[i].account_currency = self.accounts[i].account_currency
-            user_data.accounts[i].account_balance = self.accounts[i].account_balance
-        return user_data
-    
 class SimpleATM:
     """ This class represents a simple ATM"""
     def __init__(self):
@@ -94,7 +21,7 @@ class SimpleATM:
         self.current_card_id = None
         self.current_pin = None
 
-        self.user_data = CurrentUserData()
+        self.user_data = UserData()
 
     def check_pin(self):
         """ This method checks the pin
