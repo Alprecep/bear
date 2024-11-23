@@ -4,8 +4,10 @@
      check their balance, 
      deposit money, 
      withdraw money. """
+# TODO: add documnetation to the methods
 
 
+# This BankApi class is a dummy class that simulates a bank API that allows a simple atm to be tested
 class BankAPI:
     """ This class is a mockup of a bank API that allows a simple atm to be tested"""
     def __init__(self):
@@ -17,28 +19,33 @@ class BankAPI:
 
     
     def check_pin(self, card_id, pin):
+        """ This method checks if the pin is correct for the given card_id"""
         if card_id == self.user_data_1.accounts[0].account_id and pin == 1234:
             return True
         return False
     
     def get_user_data(self, card_id, pin):
+        """ This method returns the user data for the given card_id and pin"""
         if self.check_pin(card_id, pin):
             return self.user_data_1
 
 
 # Following code is a simple ATM class that allows a user to:
 class BankAccount:
+    """ This class represents a bank account"""
     def __init__(self):
         self.account_id = None
         self.account_currency = None
         self.account_balance = None
 
 class CurrentUserData:
+    """ This class represents the current user data"""
     def __init__(self):
         self.user_name = None
         self.accounts = [BankAccount()]
 
 class SimpleATM:
+    """ This class represents a simple ATM"""
     def __init__(self):
         self.bank_api = BankAPI()
         self.cash_bin = 999
@@ -49,6 +56,8 @@ class SimpleATM:
         self.user_data = CurrentUserData()
 
     def check_pin(self):
+        """ This method checks the pin"""
+
         print("Checking pin...")
         result = self.bank_api.check_pin(self.current_card_id, self.current_pin)
         print("Checking pin Result: ", result)
@@ -60,16 +69,19 @@ class SimpleATM:
         return result
     
     def insert_card(self, card_id : int):
+        """ This method for inserting the card id"""
         print("Inserting card...")
         self.current_card_id = card_id
         print("Card inserted")
         
     def insert_pin(self, pin : int):
+        """ This method for inserting the pin"""
         print("Inserting pin...")
         self.current_pin = pin
         print("Pin inserted")
 
     def select_account(self, account_number : int):
+        """ This method for selecting the account"""
         print("Selecting account...")
         account = self.user_data.accounts[account_number]
 
@@ -79,6 +91,7 @@ class SimpleATM:
         print("Account selected")
 
 if __name__ == '__main__':
+    """ This is the main function that tests the SimpleATM class"""
     atm = SimpleATM()
     
     atm.insert_card(1234)
